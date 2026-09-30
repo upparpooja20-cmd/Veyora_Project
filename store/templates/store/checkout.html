@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Veyora</title>
+
+    <link rel="stylesheet" href="{% static 'store/style.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        VEYORA
+    </div>
+
+    <nav class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="{% url 'category' %}">
+            Shop
+        </a>
+
+        <a href="{% url 'cart' %}">
+            Cart
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- CHECKOUT HEADER -->
+
+<section class="cart-header">
+
+    <p class="section-label">
+        VEYORA / CHECKOUT
+    </p>
+
+    <h1>
+        Checkout
+    </h1>
+
+    <p>
+        Complete your order securely.
+    </p>
+
+</section>
+
+
+
+<!-- CHECKOUT -->
+
+<section class="cart-section">
+
+
+    <!-- DELIVERY DETAILS -->
+
+    <div class="cart-items">
+
+        <div class="extra-card">
+
+            <h2>
+                Delivery Details
+            </h2>
+
+
+            <input
+                class="checkout-input"
+                type="text"
+                placeholder="Full Name"
+            >
+
+
+            <input
+                class="checkout-input"
+                type="text"
+                placeholder="Phone Number"
+            >
+
+
+            <input
+                class="checkout-input"
+                type="text"
+                placeholder="Address"
+            >
+
+
+            <input
+                class="checkout-input"
+                type="text"
+                placeholder="City"
+            >
+
+
+            <input
+                class="checkout-input"
+                type="text"
+                placeholder="PIN Code"
+            >
+
+
+            <h2>
+                Payment
+            </h2>
+
+
+            <p>
+                💳 Cash on Delivery
+            </p>
+
+
+            <p>
+                🔒 Secure payment
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ORDER SUMMARY -->
+
+    <div class="cart-summary">
+
+        <h2>
+            Order Summary
+        </h2>
+
+
+        {% for key, item in cart_items.items %}
+
+        <div class="summary-row">
+
+            <span>
+                {{ item.name }} × {{ item.quantity }}
+            </span>
+
+            <strong>
+                ₹{{ item.subtotal }}
+            </strong>
+
+        </div>
+
+        {% endfor %}
+
+
+        <div class="summary-line"></div>
+
+
+        <div class="summary-total">
+
+            <span>
+                Total
+            </span>
+
+            <strong>
+                ₹{{ total }}
+            </strong>
+
+        </div>
+
+
+        <a
+            href="{% url 'order_placed' %}"
+            class="checkout-btn"
+        >
+            Place Order →
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <div class="footer-brand">
+
+        <h2>
+            VEYORA
+        </h2>
+
+        <p>
+            Your style. Your way.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<div class="copyright">
+
+    © 2026 Veyora. All rights reserved.
+
+</div>
+
+
+</body>
+
+</html>

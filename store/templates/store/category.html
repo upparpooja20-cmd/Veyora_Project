@@ -1,0 +1,802 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | Veyora</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #faf9fc;
+            color: #29263c;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 92px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 7%;
+            gap: 40px;
+            border-bottom: 1px solid #eeeaf4;
+        }
+
+        .logo {
+            margin-right: auto;
+        }
+
+        .logo a {
+            color: #292447;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: #39354d;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #6b5f99;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 22px;
+            margin-left: 15px;
+        }
+
+        .nav-icons a {
+            color: #292447;
+            font-size: 24px;
+        }
+
+
+        /* =========================
+           CATEGORY HEADER
+        ========================= */
+
+        .category-header {
+            padding: 55px 7% 45px;
+            background: linear-gradient(
+                135deg,
+                #f0edf8,
+                #faf9fc
+            );
+        }
+
+        .category-label {
+            color: #827b9e;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .category-header h1 {
+            color: #292447;
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+        .category-header p {
+            color: #858093;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           CATEGORY BUTTONS
+        ========================= */
+
+        .category-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 30px 7% 10px;
+            flex-wrap: wrap;
+        }
+
+        .category-buttons a {
+            padding: 11px 20px;
+            border: 1px solid #ddd9e7;
+            border-radius: 25px;
+            background: white;
+            color: #555166;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .category-buttons a:hover,
+        .category-buttons a.active {
+            background: #292447;
+            color: white;
+            border-color: #292447;
+        }
+
+
+        /* =========================
+           SHOP AREA
+        ========================= */
+
+        .shop-area {
+            padding: 35px 7% 70px;
+        }
+
+        .products-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .products-top strong {
+            color: #353148;
+            font-size: 15px;
+        }
+
+        .products-top span {
+            color: #9994a6;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           PRODUCT GRID
+        ========================= */
+
+        .category-product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+
+        /* =========================
+           PRODUCT CARD
+        ========================= */
+
+        .category-product-card {
+            background: white;
+            border: 1px solid #eeeaf4;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        .category-product-card:hover {
+            transform: translateY(-7px);
+            box-shadow:
+                0 18px 35px rgba(45, 39, 77, 0.12);
+        }
+
+
+        /* =========================
+           PRODUCT IMAGE
+        ========================= */
+
+        .category-product-image {
+            height: 330px;
+            background: #f1eff8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .category-product-card:hover
+        .category-product-image img {
+            transform: scale(1.04);
+        }
+
+
+        /* =========================
+           BADGE
+        ========================= */
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            background: #292447;
+            color: white;
+
+            padding: 7px 11px;
+
+            border-radius: 18px;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            z-index: 2;
+        }
+
+
+        /* =========================
+           WISHLIST
+        ========================= */
+
+        .wishlist {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: white;
+
+            color: #292447;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.1);
+
+            z-index: 2;
+        }
+
+
+        /* =========================
+           PRODUCT INFORMATION
+        ========================= */
+
+        .category-product-info {
+            padding: 20px;
+        }
+
+        .category-product-info .category-name {
+            color: #9994a7;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+
+        .category-product-info h3 {
+            font-size: 18px;
+            color: #29263c;
+            margin-bottom: 10px;
+        }
+
+        .category-product-info h3 a {
+            color: inherit;
+        }
+
+        .category-product-info h3 a:hover {
+            color: #62568e;
+        }
+
+
+        /* =========================
+           RATING
+        ========================= */
+
+        .rating {
+            font-size: 14px;
+            color: #e49a00;
+            margin-bottom: 13px;
+        }
+
+        .rating span {
+            color: #9994a7;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .price {
+            color: #292447;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .old-price {
+            color: #999;
+            font-size: 14px;
+            text-decoration: line-through;
+        }
+
+        .sale {
+            color: #6c5d9a;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .card-buttons {
+            display: flex;
+            gap: 9px;
+        }
+
+        .view-product {
+            flex: 1;
+
+            text-align: center;
+
+            padding: 12px 10px;
+
+            border-radius: 9px;
+
+            background: #f0edf8;
+
+            color: #292447;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .add-cart {
+            flex: 1;
+
+            text-align: center;
+
+            padding: 12px 10px;
+
+            border-radius: 9px;
+
+            background: #292447;
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .add-cart:hover {
+            background: #17142e;
+        }
+
+        .view-product:hover {
+            background: #e4dff1;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            background: #211e35;
+            color: white;
+
+            padding: 45px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .footer h2 {
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            color: #aaa6bb;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .category-product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                height: auto;
+                padding: 20px 5%;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .category-header {
+                padding: 40px 5%;
+            }
+
+            .category-header h1 {
+                font-size: 36px;
+            }
+
+            .category-buttons,
+            .shop-area {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .category-product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-product-image {
+                height: 350px;
+            }
+
+            .products-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <a href="{% url 'home' %}">
+            VEYORA
+        </a>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'category' %}?category=fashion">
+            Fashion
+        </a>
+
+        <a href="{% url 'category' %}?category=footwear">
+            Footwear
+        </a>
+
+        <a href="{% url 'category' %}?category=electronics">
+            Electronics
+        </a>
+
+        <a href="{% url 'category' %}?category=accessories">
+            Accessories
+        </a>
+
+    </div>
+
+
+    <div class="nav-icons">
+
+        <a href="{% url 'wishlist' %}">
+            ♡
+        </a>
+
+        <a href="{% url 'cart' %}">
+            🛒
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     CATEGORY HEADER
+========================= -->
+
+<section class="category-header">
+
+    <p class="category-label">
+        VEYORA COLLECTION
+    </p>
+
+    <h1>
+        {{ selected_category|title }}
+    </h1>
+
+    <p>
+        Explore products selected for your everyday style.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     CATEGORY BUTTONS
+========================= -->
+
+<div class="category-buttons">
+
+    <a href="{% url 'category' %}?category=fashion">
+        Fashion
+    </a>
+
+    <a href="{% url 'category' %}?category=footwear">
+        Footwear
+    </a>
+
+    <a href="{% url 'category' %}?category=electronics">
+        Electronics
+    </a>
+
+    <a href="{% url 'category' %}?category=accessories">
+        Accessories
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section class="shop-area">
+
+
+    <div class="products-top">
+
+        <strong>
+            {{ products|length }} Products
+        </strong>
+
+        <span>
+            Discover something you love
+        </span>
+
+    </div>
+
+
+
+    <div class="category-product-grid">
+
+
+        {% for product in products %}
+
+
+        <!-- PRODUCT CARD -->
+
+        <div class="category-product-card">
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="category-product-image">
+
+
+                <!--
+                    AUTOMATICALLY USES:
+                    product-id-1.jpg
+                -->
+
+                <img
+                    src="{% static 'store/images/' %}{{ product.id }}-1.jpg"
+                    alt="{{ product.name }}"
+                >
+
+
+                <span class="product-badge">
+                    NEW
+                </span>
+
+
+                <button
+                    class="wishlist"
+                    type="button"
+                    title="Add to wishlist"
+                >
+                    ♡
+                </button>
+
+
+            </div>
+
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="category-product-info">
+
+
+                <p class="category-name">
+                    {{ product.category }}
+                </p>
+
+
+                <h3>
+
+                    <a
+                        href="{% url 'product' %}?product={{ product.id }}"
+                    >
+                        {{ product.name }}
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+
+                    ★ {{ product.rating }}
+
+                    <span>
+                        Highly Rated
+                    </span>
+
+                </div>
+
+
+                <div class="price-row">
+
+                    <span class="price">
+                        ₹{{ product.price }}
+                    </span>
+
+                    <span class="old-price">
+                        ₹{{ product.old_price }}
+                    </span>
+
+                    <span class="sale">
+                        SALE
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+
+                    <a
+                        href="{% url 'product' %}?product={{ product.id }}"
+                        class="view-product"
+                    >
+                        View Product
+                    </a>
+
+
+                    <a
+                        href="{% url 'add_to_cart' %}?product={{ product.id }}"
+                        class="add-cart"
+                    >
+                        Add to Cart
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <div>
+
+        <h2>
+            VEYORA
+        </h2>
+
+        <p>
+            Discover your style. Shop your way.
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <p>
+            © 2026 Veyora. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

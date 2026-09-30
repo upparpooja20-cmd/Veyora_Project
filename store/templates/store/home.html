@@ -1,0 +1,963 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Veyora | Shop Your Way</title>
+
+    <link rel="stylesheet"
+          href="{% static 'store/style.css' %}">
+
+    <style>
+
+        /* =====================================
+           HOME PRODUCT IMAGES
+        ===================================== */
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-image-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image-link img {
+            transform: scale(1.04);
+        }
+
+        .product-image .product-badge,
+        .product-image .wishlist {
+            z-index: 3;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <a href="{% url 'home' %}">
+            VEYORA
+        </a>
+
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'category' %}">
+            Shop
+        </a>
+
+        <a href="#categories">
+            Categories
+        </a>
+
+        <a href="#trending">
+            Trending
+        </a>
+
+    </nav>
+
+
+    <div class="nav-search">
+
+        <input
+            type="text"
+            placeholder="Search products..."
+        >
+
+        <button type="button">
+            ⌕
+        </button>
+
+    </div>
+
+
+    <div class="nav-icons">
+
+        <a href="{% url 'wishlist' %}">
+            ♡
+        </a>
+
+        <a href="{% url 'cart' %}">
+            🛒
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================
+     HERO
+===================================== -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+        <p class="section-label">
+            THE VEYORA EDIT
+        </p>
+
+
+        <h1>
+            Find Your Style.<br>
+            Make It Yours.
+        </h1>
+
+
+        <p class="hero-description">
+
+            Discover fashion, footwear, electronics and
+            accessories designed for everyday living.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="{% url 'category' %}?category=fashion"
+                class="primary-btn"
+            >
+                Explore Collection →
+            </a>
+
+
+            <a
+                href="#categories"
+                class="secondary-btn"
+            >
+                Shop Categories
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual">
+
+    <div class="hero-card hero-card-one">
+
+        <img
+            src="{% static 'store/images/hero-fashion.jpg' %}"
+            alt="Veyora Fashion"
+        >
+
+        <span>NEW</span>
+
+    </div>
+
+
+    <div class="hero-card hero-card-two">
+
+        <img
+            src="{% static 'store/images/hero-style.jpg' %}"
+            alt="Veyora Style"
+        >
+
+        <span>TRENDING</span>
+
+    </div>
+
+</div>
+
+
+   
+
+</section>
+
+
+
+<!-- =====================================
+     CATEGORIES
+===================================== -->
+
+<section
+    class="section"
+    id="categories"
+>
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                SHOP BY CATEGORY
+            </p>
+
+            <h2>
+                Explore what fits you
+            </h2>
+
+        </div>
+
+
+        <a
+            href="{% url 'category' %}"
+            class="view-all"
+        >
+            View All →
+        </a>
+
+    </div>
+
+
+
+    <div class="category-grid">
+
+
+        <!-- FASHION -->
+
+        <a
+            href="{% url 'category' %}?category=fashion"
+            class="category-card"
+        >
+
+            <div class="category-icon">
+                👗
+            </div>
+
+            <div>
+
+                <h3>
+                    Fashion
+                </h3>
+
+                <p>
+                    Shirts, dresses, jeans & more
+                </p>
+
+            </div>
+
+            <span class="category-arrow">
+                →
+            </span>
+
+        </a>
+
+
+
+        <!-- FOOTWEAR -->
+
+        <a
+            href="{% url 'category' %}?category=footwear"
+            class="category-card"
+        >
+
+            <div class="category-icon">
+                👟
+            </div>
+
+            <div>
+
+                <h3>
+                    Footwear
+                </h3>
+
+                <p>
+                    Sneakers, shoes & sandals
+                </p>
+
+            </div>
+
+            <span class="category-arrow">
+                →
+            </span>
+
+        </a>
+
+
+
+        <!-- ELECTRONICS -->
+
+        <a
+            href="{% url 'category' %}?category=electronics"
+            class="category-card"
+        >
+
+            <div class="category-icon">
+                🎧
+            </div>
+
+            <div>
+
+                <h3>
+                    Electronics
+                </h3>
+
+                <p>
+                    Audio, smart gadgets & more
+                </p>
+
+            </div>
+
+            <span class="category-arrow">
+                →
+            </span>
+
+        </a>
+
+
+
+        <!-- ACCESSORIES -->
+
+        <a
+            href="{% url 'category' %}?category=accessories"
+            class="category-card"
+        >
+
+            <div class="category-icon">
+                👜
+            </div>
+
+            <div>
+
+                <h3>
+                    Accessories
+                </h3>
+
+                <p>
+                    Bags, watches & sunglasses
+                </p>
+
+            </div>
+
+            <span class="category-arrow">
+                →
+            </span>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     TRENDING PRODUCTS
+===================================== -->
+
+<section
+    class="section"
+    id="trending"
+>
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                TRENDING NOW
+            </p>
+
+            <h2>
+                Picks you'll love
+            </h2>
+
+        </div>
+
+
+        <a
+            href="{% url 'category' %}?category=fashion"
+            class="view-all"
+        >
+            Shop More →
+        </a>
+
+    </div>
+
+
+
+    <div class="product-grid">
+
+
+        <!-- =================================
+             PRODUCT 1 - SHIRT
+        ================================= -->
+
+        <div class="product-card">
+
+
+            <div class="product-image">
+
+
+                <span class="product-badge">
+                    NEW
+                </span>
+
+
+                <button
+                    class="wishlist"
+                    type="button"
+                >
+                    ♡
+                </button>
+
+
+                <a
+                    href="{% url 'product' %}?product=classic-shirt"
+                    class="product-image-link"
+                >
+
+                    <img
+                        src="{% static 'store/images/classic-shirt-1.jpg' %}"
+                        alt="Classic Cotton Shirt"
+                    >
+
+                </a>
+
+
+            </div>
+
+
+
+            <div class="product-info">
+
+
+                <p>
+                    SHIRTS
+                </p>
+
+
+                <h3>
+
+                    <a
+                        href="{% url 'product' %}?product=classic-shirt"
+                    >
+                        Classic Cotton Shirt
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+
+                    ★ 4.6
+
+                    <span>
+                        (51)
+                    </span>
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹799
+
+                    <del>
+                        ₹1,299
+                    </del>
+
+                    <span>
+                        SALE
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{% url 'add_to_cart' %}?product=classic-shirt"
+                    class="add-cart"
+                >
+                    Add to Cart
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             PRODUCT 2 - SNEAKERS
+        ================================= -->
+
+        <div class="product-card">
+
+
+            <div class="product-image">
+
+
+                <span class="product-badge">
+                    POPULAR
+                </span>
+
+
+                <button
+                    class="wishlist"
+                    type="button"
+                >
+                    ♡
+                </button>
+
+
+                <a
+                    href="{% url 'product' %}?product=sneakers"
+                    class="product-image-link"
+                >
+
+                    <img
+                        src="{% static 'store/images/sneakers-1.jpg' %}"
+                        alt="Urban Street Sneakers"
+                    >
+
+                </a>
+
+
+            </div>
+
+
+
+            <div class="product-info">
+
+
+                <p>
+                    FOOTWEAR
+                </p>
+
+
+                <h3>
+
+                    <a
+                        href="{% url 'product' %}?product=sneakers"
+                    >
+                        Urban Street Sneakers
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+
+                    ★ 4.7
+
+                    <span>
+                        (52)
+                    </span>
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹1,499
+
+                    <del>
+                        ₹2,199
+                    </del>
+
+                    <span>
+                        SALE
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{% url 'add_to_cart' %}?product=sneakers"
+                    class="add-cart"
+                >
+                    Add to Cart
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             PRODUCT 3 - AUDIO BUDS
+        ================================= -->
+
+        <div class="product-card">
+
+
+            <div class="product-image">
+
+
+                <span class="product-badge">
+                    TRENDING
+                </span>
+
+
+                <button
+                    class="wishlist"
+                    type="button"
+                >
+                    ♡
+                </button>
+
+
+                <a
+                    href="{% url 'product' %}?product=audio-buds"
+                    class="product-image-link"
+                >
+
+                    <img
+                        src="{% static 'store/images/audio-buds-1.jpg' %}"
+                        alt="Wireless Audio Buds"
+                    >
+
+                </a>
+
+
+            </div>
+
+
+
+            <div class="product-info">
+
+
+                <p>
+                    ELECTRONICS
+                </p>
+
+
+                <h3>
+
+                    <a
+                        href="{% url 'product' %}?product=audio-buds"
+                    >
+                        Wireless Audio Buds
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+
+                    ★ 4.8
+
+                    <span>
+                        (53)
+                    </span>
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹1,299
+
+                    <del>
+                        ₹1,999
+                    </del>
+
+                    <span>
+                        SALE
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{% url 'add_to_cart' %}?product=audio-buds"
+                    class="add-cart"
+                >
+                    Add to Cart
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             PRODUCT 4 - BAG
+        ================================= -->
+
+        <div class="product-card">
+
+
+            <div class="product-image">
+
+
+                <span class="product-badge">
+                    NEW
+                </span>
+
+
+                <button
+                    class="wishlist"
+                    type="button"
+                >
+                    ♡
+                </button>
+
+
+                <a
+                    href="{% url 'product' %}?product=bag"
+                    class="product-image-link"
+                >
+
+                    <img
+                        src="{% static 'store/images/bag-1.jpg' %}"
+                        alt="Minimal Everyday Bag"
+                    >
+
+                </a>
+
+
+            </div>
+
+
+
+            <div class="product-info">
+
+
+                <p>
+                    ACCESSORIES
+                </p>
+
+
+                <h3>
+
+                    <a
+                        href="{% url 'product' %}?product=bag"
+                    >
+                        Minimal Everyday Bag
+                    </a>
+
+                </h3>
+
+
+                <div class="rating">
+
+                    ★ 4.5
+
+                    <span>
+                        (54)
+                    </span>
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹999
+
+                    <del>
+                        ₹1,499
+                    </del>
+
+                    <span>
+                        SALE
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{% url 'add_to_cart' %}?product=bag"
+                    class="add-cart"
+                >
+                    Add to Cart
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     OFFER
+===================================== -->
+
+<section class="offer-section">
+
+
+    <div class="offer-content">
+
+        <p class="section-label">
+            VEYORA SPECIAL
+        </p>
+
+
+        <h2>
+            Fresh styles.<br>
+            Better prices.
+        </h2>
+
+
+        <p>
+            Discover selected products with
+            special offers available for a limited time.
+        </p>
+
+
+        <a
+            href="{% url 'category' %}?category=fashion"
+            class="primary-btn"
+        >
+            Shop Offers →
+        </a>
+
+    </div>
+
+
+
+    <div class="offer-visual">
+
+        <div class="offer-circle">
+
+            <span>
+                UP TO
+            </span>
+
+            <strong>
+                40%
+            </strong>
+
+            <small>
+                OFF
+            </small>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer class="footer">
+
+
+    <div class="footer-brand">
+
+        <h2>
+            VEYORA
+        </h2>
+
+        <p>
+            Your style. Your way.
+        </p>
+
+    </div>
+
+
+
+    <div class="footer-links">
+
+
+        <div>
+
+            <h4>
+                Shop
+            </h4>
+
+            <a href="{% url 'category' %}?category=fashion">
+                Fashion
+            </a>
+
+            <a href="{% url 'category' %}?category=footwear">
+                Footwear
+            </a>
+
+            <a href="{% url 'category' %}?category=electronics">
+                Electronics
+            </a>
+
+            <a href="{% url 'category' %}?category=accessories">
+                Accessories
+            </a>
+
+        </div>
+
+
+
+        <div>
+
+            <h4>
+                Veyora
+            </h4>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'category' %}">
+                Shop
+            </a>
+
+            <a href="{% url 'wishlist' %}">
+                Wishlist
+            </a>
+
+            <a href="{% url 'cart' %}">
+                Cart
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</footer>
+
+
+</body>
+
+</html>

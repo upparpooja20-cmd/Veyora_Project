@@ -1,0 +1,396 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wishlist | Veyora</title>
+
+    <link rel="stylesheet" href="{% static 'store/style.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        VEYORA
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="{% url 'category' %}">
+            Shop
+        </a>
+
+        <a href="/#categories">
+            Categories
+        </a>
+
+        <a href="/#trending">
+            Trending
+        </a>
+
+    </nav>
+
+
+    <div class="nav-search">
+
+        <input
+            type="text"
+            placeholder="Search products..."
+        >
+
+        <button type="button">
+            ⌕
+        </button>
+
+    </div>
+
+
+    <div class="nav-icons">
+
+        <a
+            href="{% url 'wishlist' %}"
+            class="nav-wishlist"
+        >
+            ♥
+        </a>
+
+        <a href="{% url 'cart' %}">
+            🛒
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= WISHLIST HEADER ================= -->
+
+<section class="wishlist-header">
+
+    <p class="section-label">
+        VEYORA / WISHLIST
+    </p>
+
+    <h1>
+        My Wishlist
+    </h1>
+
+    <p>
+        Products you've saved for later.
+    </p>
+
+</section>
+
+
+
+<!-- ================= WISHLIST PRODUCTS ================= -->
+
+<section class="wishlist-section">
+
+    <div
+        id="wishlistProducts"
+        class="wishlist-grid"
+    >
+    </div>
+
+
+    <div
+        id="emptyWishlist"
+        class="wishlist-empty"
+        style="display: none;"
+    >
+
+        <div class="wishlist-empty-icon">
+            ♡
+        </div>
+
+        <h2>
+            Your wishlist is empty
+        </h2>
+
+        <p>
+            Save products you love and find them here later.
+        </p>
+
+        <a
+            href="{% url 'category' %}"
+            class="primary-btn"
+        >
+            Start Shopping →
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-brand">
+
+        <h2>
+            VEYORA
+        </h2>
+
+        <p>
+            Your style. Your way.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<div class="copyright">
+    © 2026 Veyora. All rights reserved.
+</div>
+
+
+
+<!-- ================= WISHLIST SCRIPT ================= -->
+
+<script>
+
+const products = {
+
+    "classic-shirt": {
+        name: "Classic Cotton Shirt",
+        category: "SHIRTS",
+        price: "799",
+        oldPrice: "1,299",
+        rating: "4.6",
+        imageText: "SHIRT"
+    },
+
+    "sneakers": {
+        name: "Urban Street Sneakers",
+        category: "FOOTWEAR",
+        price: "1,499",
+        oldPrice: "2,199",
+        rating: "4.7",
+        imageText: "SNEAKERS"
+    },
+
+    "audio-buds": {
+        name: "Wireless Audio Buds",
+        category: "ELECTRONICS",
+        price: "1,299",
+        oldPrice: "1,999",
+        rating: "4.8",
+        imageText: "AUDIO"
+    },
+
+    "bag": {
+        name: "Minimal Everyday Bag",
+        category: "ACCESSORIES",
+        price: "999",
+        oldPrice: "1,499",
+        rating: "4.5",
+        imageText: "BAG"
+    }
+
+};
+
+
+
+function loadWishlist() {
+
+    const wishlist =
+        JSON.parse(
+            localStorage.getItem('veyoraWishlist')
+        ) || [];
+
+
+    const container =
+        document.getElementById('wishlistProducts');
+
+    const empty =
+        document.getElementById('emptyWishlist');
+
+
+    container.innerHTML = "";
+
+
+    if (wishlist.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    empty.style.display = "none";
+
+
+    wishlist.forEach(function(productId) {
+
+        const product = products[productId];
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const card =
+            document.createElement('div');
+
+        card.className =
+            'wishlist-product-card';
+
+
+        card.innerHTML = `
+
+            <div
+                class="wishlist-product-image"
+                onclick="openProduct('${productId}')"
+            >
+
+                <span class="wishlist-remove"
+                    onclick="removeFromWishlist('${productId}', event)"
+                >
+                    ×
+                </span>
+
+                <div class="wishlist-placeholder">
+                    ${product.imageText}
+                </div>
+
+            </div>
+
+
+            <div class="wishlist-product-info">
+
+                <p>
+                    ${product.category}
+                </p>
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+
+                <div class="rating">
+                    ★ ${product.rating}
+                </div>
+
+
+                <div class="wishlist-price">
+
+                    ₹${product.price}
+
+                    <del>
+                        ₹${product.oldPrice}
+                    </del>
+
+                </div>
+
+
+                <div class="wishlist-actions">
+
+                    <a
+                        href="/add-to-cart/?product=${productId}"
+                        class="add-cart"
+                    >
+                        Add to Cart
+                    </a>
+
+                    <button
+                        type="button"
+                        class="remove-wishlist-btn"
+                        onclick="removeFromWishlist('${productId}', event)"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+
+function openProduct(productId) {
+
+    window.location.href =
+        "/product/?product=" + productId;
+
+}
+
+
+
+function removeFromWishlist(productId, event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+
+    let wishlist =
+        JSON.parse(
+            localStorage.getItem('veyoraWishlist')
+        ) || [];
+
+
+    wishlist =
+        wishlist.filter(function(item) {
+
+            return item !== productId;
+
+        });
+
+
+    localStorage.setItem(
+        'veyoraWishlist',
+        JSON.stringify(wishlist)
+    );
+
+
+    loadWishlist();
+
+}
+
+
+
+document.addEventListener(
+    'DOMContentLoaded',
+    loadWishlist
+);
+
+</script>
+
+
+</body>
+
+</html>

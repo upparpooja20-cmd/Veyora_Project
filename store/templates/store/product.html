@@ -1,0 +1,977 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ product.name }} | Veyora</title>
+
+    <link rel="stylesheet"
+          href="{% static 'store/style.css' %}">
+
+    <style>
+
+        /* =========================================
+           PRODUCT PAGE
+        ========================================= */
+
+        .product-page {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 25px 50px 60px;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BREADCRUMB
+        ========================================= */
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #4b3f72;
+        }
+
+
+        /* =========================================
+           MAIN PRODUCT LAYOUT
+        ========================================= */
+
+        .product-container {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1.05fr) minmax(400px, 0.95fr);
+            gap: 55px;
+            align-items: start;
+            width: 100%;
+        }
+
+
+        /* =========================================
+           IMAGE AREA
+        ========================================= */
+
+        .product-gallery {
+            width: 100%;
+            min-width: 0;
+        }
+
+
+        .product-image-slider {
+            position: relative;
+            width: 100%;
+            height: 620px;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background: #f5f5f7;
+        }
+
+
+        /* =========================================
+           SLIDES
+        ========================================= */
+
+        .slides-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+            transition: transform 0.45s ease;
+        }
+
+
+        .slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        /* =========================================
+           LEFT / RIGHT BUTTONS
+        ========================================= */
+
+        .slider-btn {
+            position: absolute;
+
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 46px;
+            height: 46px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            color: #18245c;
+
+            font-size: 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            z-index: 10;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+            transition: all 0.2s ease;
+        }
+
+
+        .slider-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+
+            background: white;
+        }
+
+
+        .slider-btn.prev {
+            left: 18px;
+        }
+
+
+        .slider-btn.next {
+            right: 18px;
+        }
+
+
+        /* =========================================
+           DOTS
+        ========================================= */
+
+        .slider-dots {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+
+        .slider-dots span {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #c9c9c9;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+
+        .slider-dots span.active {
+            width: 24px;
+
+            border-radius: 10px;
+
+            background: #4b3f72;
+        }
+
+
+        /* =========================================
+           PRODUCT DETAILS
+        ========================================= */
+
+        .product-details {
+            width: 100%;
+
+            padding: 25px 10px 20px 5px;
+
+            box-sizing: border-box;
+        }
+
+
+        .product-category {
+            margin: 0 0 12px;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            color: #777;
+        }
+
+
+        .product-details h1 {
+            margin: 0 0 18px;
+
+            font-size: 38px;
+
+            line-height: 1.2;
+
+            color: #18245c;
+        }
+
+
+        /* =========================================
+           RATING
+        ========================================= */
+
+        .product-rating {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 25px;
+
+            font-size: 15px;
+        }
+
+
+        .rating-star {
+            color: #f3a600;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================================
+           PRICE
+        ========================================= */
+
+        .product-price {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .current-price {
+            font-size: 30px;
+
+            font-weight: 700;
+
+            color: #18245c;
+        }
+
+
+        .old-price {
+            font-size: 18px;
+
+            color: #999;
+
+            text-decoration: line-through;
+        }
+
+
+        .product-offer {
+            display: inline-block;
+
+            margin: 5px 0 30px;
+
+            padding: 8px 14px;
+
+            border-radius: 8px;
+
+            background: #f0edf8;
+
+            color: #4b3f72;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           PRODUCT DETAILS TEXT
+        ========================================= */
+
+        .product-description {
+            padding: 22px 0;
+
+            border-top: 1px solid #e5e5e5;
+
+            border-bottom: 1px solid #e5e5e5;
+
+            margin-bottom: 30px;
+        }
+
+
+        .product-description h3 {
+            margin: 0 0 10px;
+
+            font-size: 19px;
+
+            color: #18245c;
+        }
+
+
+        .product-description p {
+            margin: 0;
+
+            line-height: 1.7;
+
+            color: #666;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .product-actions {
+            display: flex;
+
+            gap: 14px;
+
+            width: 100%;
+        }
+
+
+        .add-cart-large,
+        .buy-now {
+            flex: 1;
+
+            padding: 16px 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            transition: all 0.2s ease;
+
+            box-sizing: border-box;
+        }
+
+
+        .add-cart-large {
+            background: #18245c;
+
+            color: white;
+        }
+
+
+        .add-cart-large:hover {
+            background: #101941;
+
+            transform: translateY(-2px);
+        }
+
+
+        .buy-now {
+            background: #f0edf8;
+
+            color: #18245c;
+
+            border: 1px solid #d8d1ea;
+        }
+
+
+        .buy-now:hover {
+            background: #e4def3;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            margin-top: 30px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .product-page {
+                padding: 20px;
+            }
+
+
+            .product-container {
+                grid-template-columns: 1fr !important;
+
+                gap: 30px;
+            }
+
+
+            .product-image-slider {
+                height: 500px;
+            }
+
+
+            .product-details {
+                padding: 10px 0;
+            }
+
+
+            .product-details h1 {
+                font-size: 30px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .product-image-slider {
+                height: 420px;
+
+                border-radius: 14px;
+            }
+
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+
+            .product-details h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <a href="{% url 'home' %}">
+            VEYORA
+        </a>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'category' %}?category=Fashion">
+            Fashion
+        </a>
+
+        <a href="{% url 'category' %}?category=Footwear">
+            Footwear
+        </a>
+
+        <a href="{% url 'category' %}?category=Electronics">
+            Electronics
+        </a>
+
+        <a href="{% url 'category' %}?category=Accessories">
+            Accessories
+        </a>
+
+    </div>
+
+
+    <div class="nav-icons">
+
+        <a href="{% url 'wishlist' %}">
+            ♡
+        </a>
+
+        <a href="{% url 'cart' %}">
+            🛒
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     PRODUCT PAGE
+========================================= -->
+
+<div class="product-page">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="breadcrumb">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <span>›</span>
+
+        <a href="{% url 'category' %}?category={{ product.category }}">
+            {{ product.category }}
+        </a>
+
+        <span>›</span>
+
+        <span>
+            {{ product.name }}
+        </span>
+
+    </div>
+
+
+
+    <!-- PRODUCT CONTENT -->
+
+    <div class="product-container">
+
+
+        <!-- =================================
+             IMAGE CAROUSEL
+        ================================= -->
+
+        <div class="product-gallery">
+
+
+            <div class="product-image-slider">
+
+
+                <!-- SLIDES -->
+
+                <div class="slides-container"
+                     id="slidesContainer">
+
+
+                    {% for image in product.images %}
+
+                    <div class="slide">
+
+                        <img
+                            src="{% static image %}"
+                            alt="{{ product.name }}"
+                        >
+
+                    </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+
+
+                <!-- LEFT ARROW -->
+
+                <button
+                    type="button"
+                    class="slider-btn prev"
+                    onclick="moveSlide(-1)"
+                    aria-label="Previous image"
+                >
+
+                    ❮
+
+                </button>
+
+
+
+                <!-- RIGHT ARROW -->
+
+                <button
+                    type="button"
+                    class="slider-btn next"
+                    onclick="moveSlide(1)"
+                    aria-label="Next image"
+                >
+
+                    ❯
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- DOTS -->
+
+            <div class="slider-dots">
+
+                {% for image in product.images %}
+
+                <span
+                    class="{% if forloop.first %}active{% endif %}"
+                    onclick="goToSlide({{ forloop.counter0 }})"
+                >
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             PRODUCT INFORMATION
+        ================================= -->
+
+        <div class="product-details">
+
+
+            <p class="product-category">
+
+                {{ product.category }}
+
+            </p>
+
+
+            <h1>
+
+                {{ product.name }}
+
+            </h1>
+
+
+
+            <!-- RATING -->
+
+            <div class="product-rating">
+
+                <span class="rating-star">
+                    ★
+                </span>
+
+                <strong>
+                    {{ product.rating }}
+                </strong>
+
+                <span>
+                    Highly Rated
+                </span>
+
+            </div>
+
+
+
+            <!-- PRICE -->
+
+            <div class="product-price">
+
+                <span class="current-price">
+                    ₹{{ product.price }}
+                </span>
+
+                <span class="old-price">
+                    ₹{{ product.old_price }}
+                </span>
+
+            </div>
+
+
+
+            <!-- OFFER -->
+
+            <p class="product-offer">
+
+                Special price • Free delivery available
+
+            </p>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="product-description">
+
+                <h3>
+                    Product Details
+                </h3>
+
+                <p>
+                    Designed for everyday comfort and style.
+                    This product combines a modern look with
+                    quality and practicality.
+                </p>
+
+            </div>
+
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="product-actions">
+
+
+                <a
+                    href="{% url 'add_to_cart' %}?product={{ product_id }}"
+                    class="add-cart-large"
+                >
+
+                    🛒 Add to Cart
+
+                </a>
+
+
+                <a
+                    href="{% url 'checkout' %}"
+                    class="buy-now"
+                >
+
+                    Buy Now
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+    <div>
+
+        <h2>
+            VEYORA
+        </h2>
+
+        <p>
+            Discover your style. Shop your way.
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <p>
+            © 2026 Veyora. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+let currentSlide = 0;
+
+const slidesContainer =
+    document.getElementById("slidesContainer");
+
+const slides =
+    document.querySelectorAll(".slide");
+
+const dots =
+    document.querySelectorAll(".slider-dots span");
+
+
+
+function showSlide(index) {
+
+    if (slides.length === 0) {
+        return;
+    }
+
+
+    if (index >= slides.length) {
+
+        currentSlide = 0;
+
+    }
+
+    else if (index < 0) {
+
+        currentSlide = slides.length - 1;
+
+    }
+
+    else {
+
+        currentSlide = index;
+
+    }
+
+
+    /* Move images horizontally */
+
+    slidesContainer.style.transform =
+        "translateX(-" +
+        (currentSlide * 100) +
+        "%)";
+
+
+    /* Update dots */
+
+    dots.forEach(function(dot) {
+
+        dot.classList.remove("active");
+
+    });
+
+
+    if (dots[currentSlide]) {
+
+        dots[currentSlide].classList.add("active");
+
+    }
+
+}
+
+
+
+function moveSlide(direction) {
+
+    showSlide(
+        currentSlide + direction
+    );
+
+}
+
+
+
+function goToSlide(index) {
+
+    showSlide(index);
+
+}
+
+
+/* =========================================
+   SWIPE SUPPORT
+========================================= */
+
+let startX = 0;
+
+let endX = 0;
+
+
+slidesContainer.addEventListener(
+    "touchstart",
+    function(event) {
+
+        startX =
+            event.touches[0].clientX;
+
+    }
+);
+
+
+slidesContainer.addEventListener(
+    "touchend",
+    function(event) {
+
+        endX =
+            event.changedTouches[0].clientX;
+
+
+        const difference =
+            startX - endX;
+
+
+        if (Math.abs(difference) > 50) {
+
+            if (difference > 0) {
+
+                moveSlide(1);
+
+            }
+
+            else {
+
+                moveSlide(-1);
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
